@@ -1,9 +1,6 @@
 class UrlsController < ApplicationController
-  before_action do
-    check_url
-  end
-
   def create
+    check_url
     original = params[:url]
     digest = Digest::SHA256.hexdigest(original).first(7)
 
@@ -14,7 +11,17 @@ class UrlsController < ApplicationController
     render json: { url: "http://localhost:3000/api/v1/urls/#{result.digest}" }, status: 201
   end
 
-  # curl -XPOST "http://localhost:3000/api/v1/urls" -d '{"url": "https://www.google.co.jp/"}' -H 'Content-Type: application/json'
+  # http://localhost:3000/:digest
+  def jump
+    url = Url.find_by(digest: params[:digest])&.original
+    if url.nil?
+      render json: {}, status: 404
+    else
+      redirect_to url, allow_other_host: true, status: 301
+    end 
+  end
+
+  def index ; end
 
   private
 
