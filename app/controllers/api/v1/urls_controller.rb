@@ -4,8 +4,17 @@ class Api::V1::UrlsController < ApplicationController
   end
   
   def create
-    Url.create(original: "hoge", digest: "hoge")
+    original = params[:url]
+    digest = Digest::SHA256.hexdigest(original).first(7)
+
+    # originalがparams[:url]のレコードがあれば、そのレコードのdigestを返す
+    result = Url.find_or_create_by(original:, digest:)
+
+    # ステータスコード200とdigestを含む短縮したURLをレスポンスで返す
+    render json: { url: "http://localhost:3000/api/v1/urls/#{result.digest}" }, status: 201
   end
+
+  # curl -XPOST "http://localhost:3000/api/v1/urls" -d '{"url": "https://www.google.co.jp/"}' -H 'Content-Type: application/json'
 
   private
 
