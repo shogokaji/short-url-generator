@@ -10,6 +10,9 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= form_tag('/urls', method: 'post') do %>
+      <%= text_field_tag 'url' %>
+      <%= submit_tag 'Submit' %>
+    <% end %>
   </body>
 </html>

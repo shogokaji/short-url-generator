@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home Page</title>
+  </head>
+  <body>
+  <div>↓ 圧縮</div>
+    <%= form_tag('/urls', method: 'post') do %>
+        <%= text_field_tag 'url' %>
+        <%= submit_tag 'Submit' %>
+    <% end %>
+    <div>↓ Jump</div>
+        <%= form_tag('/urls', method: 'post') do %>
+            <%= text_field_tag 'url' %>
+            <%= submit_tag 'Submit' %>
+        <% end %>
+
+  </body>
+</html>
