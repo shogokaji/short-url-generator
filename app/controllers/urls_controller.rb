@@ -1,8 +1,8 @@
-class Api::V1::UrlsController < ApplicationController
+class UrlsController < ApplicationController
   before_action do
     check_url
   end
-  
+
   def create
     Url.create(original: "hoge", digest: "hoge")
   end
